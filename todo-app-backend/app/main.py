@@ -38,47 +38,47 @@ app.add_middleware(
 # CATEGORIES
 
 
-# class CategoriesArea(BaseModel):
-#     id: str
-#     name: str
+class CategoriesArea(BaseModel):
+    id: str
+    name: str
 
 
-# class CategoriesCreateArea(BaseModel):
-#     name: str
+class CategoriesCreateArea(BaseModel):
+    name: str
 
 
-# class CategoriesUpdateArea(BaseModel):
-#     name: str | None = None
+class CategoriesUpdateArea(BaseModel):
+    name: str | None = None
 
 
-# categories: list[CategoriesArea] = []
+categories: list[CategoriesArea] = []
 
 
-# @app.get("/categories", status_code=status.HTTP_200_OK)
-# def get_categories() -> list[CategoriesArea]:
-#     return categories
+@app.get("/categories", status_code=status.HTTP_200_OK)
+def get_categories() -> list[CategoriesArea]:
+    return categories
 
 
-# @app.post("/categories", status_code=status.HTTP_201_CREATED)
-# def create_categories(new_category: CategoriesCreateArea) -> CategoriesArea:
-#     new_cat = CategoriesArea(id=str(uuid4()), name=new_category.name)
+@app.post("/categories", status_code=status.HTTP_201_CREATED)
+def create_categories(new_category: CategoriesCreateArea) -> CategoriesArea:
+    new_cat = CategoriesArea(id=str(uuid4()), name=new_category.name)
 
-#     categories.append(new_cat)
-#     return new_cat
-
-
-# @app.patch("/categories/{category_id}")
-# def update_category(category_id: str, new_category: CategoriesUpdateArea):
-#     for category in categories:
-#         if category.id == category_id:
-#             if new_category.name:
-#                 category.name = new_category.name
-
-#             return category
+    categories.append(new_cat)
+    return new_cat
 
 
-# @app.delete("/categories/{category_id}")
-# def delete_category(category_id):
-#     for category in categories:
-#         if category.id == category_id:
-#             categories.remove(category)
+@app.patch("/categories/{category_id}")
+def update_category(category_id: str, new_category: CategoriesUpdateArea):
+    for category in categories:
+        if category.id == category_id:
+            if new_category.name:
+                category.name = new_category.name
+
+            return category
+
+
+@app.delete("/categories/{category_id}")
+def delete_category(category_id):
+    for category in categories:
+        if category.id == category_id:
+            categories.remove(category)
