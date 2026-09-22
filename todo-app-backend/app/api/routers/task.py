@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, status
+
 from app.api.dependensies import get_task_service
 from app.schemas.task import TaskCreateSchema, TaskSchema, TaskUpdateSchema
 from app.services.task import TaskService
@@ -37,4 +38,4 @@ def update_task(
 def delete_task(
     task_id: str, task_service: TaskService = Depends(get_task_service)
 ) -> None:
-    return task_service.delete_task(task_id=task_id)
+    task_service.delete_task(task_id=task_id)

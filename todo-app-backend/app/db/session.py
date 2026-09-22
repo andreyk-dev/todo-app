@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session, sessionmaker
+
 from app.core.config import get_settings
 
-#перенос настроек из config.py
+# перенос настроек из config.py
 settings = get_settings()
 
 engine = create_engine(settings.DATABASE_URL)

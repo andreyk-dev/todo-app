@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 
-#Category
+# Category
+
 
 class CategorySchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -14,8 +15,3 @@ class CategoryCreateSchema(BaseModel):
 
 class CategoryUpdateSchema(BaseModel):
     name: str | None = None
-
-
-
-
-

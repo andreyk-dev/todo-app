@@ -1,20 +1,18 @@
 import logging
-
-from app.core.logging import configure_logging
 from time import perf_counter
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routers.task import router as task_router
 from app.api.routers.category import router as category_router
-
+from app.api.routers.task import router as task_router
+from app.core.logging import configure_logging
 
 app = FastAPI()
 
 
 configure_logging()
-logger = logging.getLogger('app.middleware')
+logger = logging.getLogger("app.middleware")
 
 request_counter: int = 0
 
@@ -22,12 +20,12 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
     allow_methods=["*"],
-    expose_headers=['X-Request-Number'],
+    expose_headers=["X-Request-Number"],
 )
 
 
-#count logs
-@app.middleware('http')
+# count logs
+@app.middleware("http")
 async def count_requests(request: Request, call_next) -> Response:
     global request_counter
 
@@ -40,8 +38,9 @@ async def count_requests(request: Request, call_next) -> Response:
 
     return response
 
-#logs
-@app.middleware('http')
+
+# logs
+@app.middleware("http")
 async def log_requests(request: Request, call_next) -> Response:
     started_at = perf_counter()
     try:
@@ -66,8 +65,6 @@ async def log_requests(request: Request, call_next) -> Response:
     )
     return response
 
+
 app.include_router(router=task_router)
 app.include_router(router=category_router)
-
-
-

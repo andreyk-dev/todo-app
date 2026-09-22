@@ -1,16 +1,17 @@
 from sqlalchemy.orm import Session
-from app.repositories.task import TaskRepository
-from app.schemas.task import TaskSchema, TaskCreateSchema, TaskUpdateSchema
 
-class TaskService: 
+from app.repositories.task import TaskRepository
+from app.schemas.task import TaskCreateSchema, TaskSchema, TaskUpdateSchema
+
+
+class TaskService:
     def __init__(self, db: Session) -> None:
-        self.db = db 
+        self.db = db
         self.task_repository = TaskRepository(db)
 
     def list_tasks(self) -> list[TaskSchema]:
         tasks_orm = self.task_repository.get_all()
-        return[TaskSchema.model_validate(task) for task in tasks_orm]
-        #model validate = TaskSchema(id = task.id, title = task.title, completed=task.completed)
+        return [TaskSchema.model_validate(task) for task in tasks_orm]
 
     def create_task(self, task_create: TaskCreateSchema) -> TaskSchema:
         task_orm = self.task_repository.create(title=task_create.title)
@@ -23,12 +24,11 @@ class TaskService:
             task_for_update.title = task_update.title
         if task_update.completed is not None:
             task_for_update.completed = task_update.completed
-        
+
         self.db.commit()
         return TaskSchema.model_validate(task_for_update)
 
-        
-    def delete_task(self, task_id: str) -> TaskSchema:
+    def delete_task(self, task_id: str) -> None:
         task_for_delete = self.task_repository.get_by_id(task_id=task_id)
         self.task_repository.delete(task_for_delete)
         self.db.commit()
