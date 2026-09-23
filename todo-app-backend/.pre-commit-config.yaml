@@ -22,3 +22,10 @@ repos:
         pass_filenames: false
         types_or: [python]
         args: [--config-file=todo-app-backend/pyproject.toml, todo-app-backend/app]
+
+      - id: pytest
+        name: pytest
+        entry: python
+        language: system
+        pass_filenames: false
+        types_or: [python]
